@@ -1,0 +1,7 @@
+$(function(){var page='';if($('#formDealPurchase').attr('id')=='formDealPurchase'){page='/cart/';}else{page='/user/account/';}
+if(typeof(historyURL)!='undefined'){if(historyURL!=''){page='/'+ historyURL+'/';}}
+window.fbAsyncInit=function(){FB.init({appId:fbApplicationID,status:true,cookie:true,xfbml:true,oauth:true,channelUrl:siteUrl+'/public/api/facebook/xd_receiver.htm'});FB.Event.subscribe('auth.login',function(response){});FB.Event.subscribe('auth.logout',function(response){});};(function(){var e=document.createElement('script');e.src=document.location.protocol+'//connect.facebook.net/en_US/all.js';e.async=true;document.getElementById('fb-root').appendChild(e);}());$('#logout-link').click(function(){var loc=$(this).attr('href')
+var status=false;FB.getLoginStatus(function(response){if(response.authResponse){status=true}else{status=false;}});})})
+function postToFeed(url){var urlshare=url;var obj={method:'feed',link:urlshare,actions:{name:'View Deal',link:url}};function callback(response){if(response&&response['post_id']){jAlert(lblPostPublished);}else{jAlert(lblPostNotPublished);}}
+FB.ui(obj,callback);}
+function streamPublish(){FB.ui({method:'stream.publish'},function(response){if(response&&response['post_id']){jAlert(lblfacebookUpdate);}else{jAlert(lblUpdatePermission);}});}

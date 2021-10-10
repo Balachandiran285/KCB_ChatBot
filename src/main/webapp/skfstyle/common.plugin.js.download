@@ -1,0 +1,53 @@
+$.extend({objCount:function(obj){if(typeof obj=="object"){var i,count=0;for(i in obj){if(obj.hasOwnProperty(i)){count++;}}
+return count;}else{return false;}},str_replace:function(search,replace,subject,count){var i=0,j=0,temp='',repl='',sl=0,fl=0,f=[].concat(search),r=[].concat(replace),s=subject,ra=Object.prototype.toString.call(r)==='[object Array]',sa=Object.prototype.toString.call(s)==='[object Array]';s=[].concat(s);if(count){this.window[count]=0;}
+for(i=0,sl=s.length;i<sl;i++){if(s[i]===''){continue;}
+for(j=0,fl=f.length;j<fl;j++){temp=s[i]+'';repl=ra?(r[j]!==undefined?r[j]:''):r[0];s[i]=(temp).split(f[j]).join(repl);if(count&&s[i]!==temp){this.window[count]+=(temp.length- s[i].length)/ f[j].length;}}}
+return sa?s:s[0];},stripslashes:function(str){return(str+'').replace(/\\(.?)/g,function(s,n1){switch(n1){case'\\':return'\\';case'0':return'\u0000';case'':return'';default:return n1;}});},is_array:function(mixed_var){var ini,_getFuncName=function(fn){var name=(/\W*function\s+([\w\$]+)\s*\(/).exec(fn);if(!name){return'(Anonymous)';}
+return name[1];},_isArray=function(mixed_var){if(!mixed_var||typeof mixed_var!=='object'||typeof mixed_var.length!=='number'){return false;}
+var len=mixed_var.length;mixed_var[mixed_var.length]='bogus';if(len!==mixed_var.length){mixed_var.length-=1;return true;}
+delete mixed_var[mixed_var.length];return false;};if(!mixed_var||typeof mixed_var!=='object'){return false;}
+this.php_js=this.php_js||{};this.php_js.ini=this.php_js.ini||{};ini=this.php_js.ini['phpjs.objectsAsArrays'];return _isArray(mixed_var)||((!ini||((parseInt(ini.local_value,10)!==0&&(!ini.local_value.toLowerCase||ini.local_value.toLowerCase()!=='off'))))&&(Object.prototype.toString.call(mixed_var)==='[object Object]'&&_getFuncName(mixed_var.constructor)==='Object'));},in_array:function(needle,haystack,argStrict){var key='',strict=!!argStrict;if(strict){for(key in haystack){if(haystack[key]===needle){return true;}}}else{for(key in haystack){if(haystack[key]==needle){return true;}}}
+return false;},dateFormat:function(date_format){switch(date_format){case"%d-%m-%Y":return'dd-MM-yyyy'
+break;case"%m/%d/%Y":return'MM/dd/yyyy';break;case"%Y-%m-%d":return'yyyy-MM-dd';break;case"%l:%M %p":return'h:mm a';break;case"%I:%M %p":return'hh:mm a';break;case"%H:%M":return'HH:mm';break;}},formatDate:function(date,date_format,convert){if(convert)
+return $.format.date(date,$.dateFormat(date_format));else
+return $.format.date(date,date_format);},blockDiv:function(block,message,listdealsLocked){$(block).block({message:$(message),css:{padding:0,margin:0,width:'30%',top:'40%',left:'35%',textAlign:'center',color:'#000',border:'0',backgroundColor:'none',cursor:'wait'},overlayCSS:{backgroundColor:'#000',opacity:0.6},onBlock:function(){listdealsLocked=listdealsLocked;}});},objMerge:function(obj1,obj2){var data=new Object();var key=0;for(ob1 in obj1){data[key]=obj1[ob1];key++;}
+for(ob2 in obj2){data[key]=obj2[ob2];key++;}
+return data;},delay:function(time){var d1=new Date();var d2=new Date();while(d2.valueOf()<d1.valueOf()+ time){d2=new Date();}},truncate:function(string,limit){var dots="...";if(string.length>limit){string=string.substring(0,limit)+ dots;}
+return string;},strip_tags:function(input,allowed){allowed=(((allowed||"")+"").toLowerCase().match(/<[a-z][a-z0-9]*>/g)||[]).join('');var tags=/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,commentsAndPhpTags=/<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;return input.replace(commentsAndPhpTags,'').replace(tags,function($0,$1){return allowed.indexOf('<'+ $1.toLowerCase()+'>')>-1?$0:'';});},getFormattedCurrency:function(originalPrice,decimalType,from,to){var decimalType=(decimalType=='')?'Rounded':decimalType;if(from>0&&to>0&&originalPrice>0)
+{if(from==to)
+{var originalPrice=originalPrice;}
+else
+{var defaultCurrency=_currencies[_defaultCurrency];if(defaultCurrency['CurrencyID']==to)
+{fromCurrencyDetails=_currencies[from];if(defaultCurrency['currencyValue']<=0)
+{originalPrice=0;}
+else if(fromCurrencyDetails['currencyValue']<=0)
+{originalPrice=0;}
+else
+{originalPrice=originalPrice/fromCurrencyDetails['currencyValue'];}}
+else if(defaultCurrency['CurrencyID']==from)
+{toCurrencyDetails=_currencies[to];originalPrice=originalPrice*toCurrencyDetails['currencyValue'];}
+else
+{fromCurrencyDetails=_currencies[from];defaultCurValue=originalPrice/fromCurrencyDetails['currencyValue'];toCurrencyDetails=_currencies[to];originalPrice=defaultCurValue*toCurrencyDetails['currencyValue'];}}}
+if(to>0)
+{defaultCurrency=_currencies[to];if($.objCount(defaultCurrency)<1)
+{defaultCurrency=_currencies[_defaultCurrency];}}
+else
+{defaultCurrency=_currencies[_defaultCurrency];}
+if((decimalType=="Rounded"))
+{currencyDecimalPlaces=((defaultCurrency['currencyDecimalPlaces'])>0)?(defaultCurrency['currencyDecimalPlaces']):0;originalPrice=parseFloat(originalPrice);originalPrice=Math.round(originalPrice*(Math.pow(10,currencyDecimalPlaces)))/ (Math.pow(10,currencyDecimalPlaces));originalPriceArray=(originalPrice).toString().split(".");if(originalPriceArray.length>1){originalPriceDecimal=originalPriceArray[1];originalPriceDecimalLength=originalPriceDecimal.length;if(originalPriceDecimalLength<currencyDecimalPlaces&&originalPriceDecimal!="")
+{originalPriceDecimalBalanceLength=currencyDecimalPlaces-
+originalPriceDecimalLength;originalPrice=originalPrice;}}}
+else if((decimalType=="Full"))
+{originalPrice=originalPrice;}
+if(defaultCurrency['currencySymbolLeft']!='')
+{originalPrice=defaultCurrency['currencySymbolLeft']+originalPrice;}
+else if(defaultCurrency['currencySymbolRight']!='')
+{originalPrice=originalPrice+defaultCurrency['currencySymbolRight'];}
+else
+{originalPrice=originalPrice+defaultCurrency['currencyCode'];}
+return originalPrice;},getWebStorageSize:function(storage_type){var total=0;if(storage_type=='localStorage'){for(var x in localStorage){total+=((localStorage[x].length*2)/1024/1024);}}
+else if(storage_type=='sessionStorage'){for(var x in sessionStorage){total+=((sessionStorage[x].length*2)/1024/1024);}}
+return total;},getWebStorageRemainingSize:function(storage_type){var total=0;if(storage_type=='localStorage'){for(var x in localStorage){total+=((localStorage[x].length*2)/1024/1024);}}
+else if(storage_type=='sessionStorage'){for(var x in sessionStorage){total+=((sessionStorage[x].length*2)/1024/1024);}}
+return(5-total);},intersect:function(array1,array2){var array1=array1.sort();var array2=array2.sort();var result=[];var a=array1.slice(0);var b=array2.slice(0);var aLast=a.length- 1;var bLast=b.length- 1;while(aLast>=0&&bLast>=0){if(a[aLast]>b[bLast]){a.pop();aLast--;}else if(a[aLast]<b[bLast]){b.pop();bLast--;}else{result.push(a.pop());b.pop();aLast--;bLast--;}}
+return result;}});

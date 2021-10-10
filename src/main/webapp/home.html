@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<title>KCB Chatbot</title>
+
+	<link rel="stylesheet" href="widget/css/lib/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/chatbot-widget-style.css" />
+	<script src="widget/js/lib/jquery.min.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	<script>
+		$(function (event) {
+			$(".chat-bot-icon").draggable();
+			// event.stopPropagation();
+		});
+	</script>
+</head>
+
+<body id="body" class="homePage" style="cursor: auto;">
+
+
+	<a href="javascript:;" class="chat-bot-icon">
+
+		<img class="chat-bot-icon-image" src="img/ug-kcb-logo.webp">
+		<div class="kiyabot-pop">
+			<h6>KCB Bot </h6>
+			<span class="closepop"><img id="" src="widget/assets/images/icons/cross.png"></span> <small>Hi, I am the
+				virtual assistant at KCB. I can help you with all your queries.</small>
+		</div>
+	</a>
+	<a href="javascript:;" class="minimizedbot">
+		<img class="chat-bot-icon-image" src="img/ug-kcb-logo.webp">
+	</a>
+	<!--/.Chatbot-->
+	<script src="js/chatbot-widget-1.js"></script>
+	<script src="widget/js/lib/bootstrap.min.js"></script>
+
+</body>
+
+</html>
